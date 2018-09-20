@@ -6,6 +6,9 @@ import br.cefetmg.games.movement.Steering;
 import br.cefetmg.games.movement.Target;
 import br.cefetmg.games.movement.behavior.Algorithm;
 import br.cefetmg.games.movement.behavior.Seek;
+import br.cefetmg.games.pathfinding.EuclideanHeuristic;
+import br.cefetmg.games.pathfinding.ManhattanHeuristic;
+import br.cefetmg.games.pathfinding.NullHeuristic;
 import br.cefetmg.games.pathfinding.TileConnection;
 import br.cefetmg.games.pathfinding.TileNode;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
@@ -102,18 +105,10 @@ public class Agent {
 
         path.clear();
         pathFinder.metrics.reset();
-        // AQUI ESTAMOS CHAMANDO O ALGORITMO A* (instância pathFinder) 
+        // AQUI ESTAMOS CHAMANDO O ALGORITMO A* (instância pathFinder)
+        Heuristic heuristic = new ManhattanHeuristic();
         pathFinder.searchConnectionPath(startNode, targetNode,
-                new Heuristic<TileNode>() {
-
-            @Override
-            public float estimate(TileNode n, TileNode n1) {
-                throw new UnsupportedOperationException("Deveria ter retornado "
-                        + "um valor para a heurística no arquivo "
-                        + "Agent.java:107, mas o professor resolveu explodir "
-                        + "o programa e deixar você consertar ;)"); 
-            }
-        }, path);
+                heuristic, path);
         pathIterator = path.iterator();
     }
 
